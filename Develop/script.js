@@ -13,13 +13,12 @@ var generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 function writePassword() 
 {
+  //Get User inputs
   //length of password
   confirmLength = (window.prompt("what length of password do you want? Hint: Range allowed 8-128 char"));
-  // Loop if answer is outside the parameters 
   while(confirmLength <= 7 || confirmLength >= 129) 
-  {
-      alert("Password length must be between 8-128 (inclusive) characters. Please Try again");
-      confirmLength = (window.prompt("what length of password do you want? Hint: Range allowed 8-128 char"));
+  {alert("Password length must be between 8-128 (inclusive) characters. Please Try again");
+  confirmLength = (window.prompt("what length of password do you want? Hint: Range allowed 8-128 char"));
   } 
   // Repeat back how many characters the user will have  
   window.alert(`Your password will be ${confirmLength} characters long`); 
@@ -40,14 +39,15 @@ function writePassword()
        confirmSpecialCharacter = window.confirm("Click OK to confirm if you would like to include special characters");
      } 
      const passwordcriteria = [{confirmLowerCase},{confirmUpperCase}, {confirmNumber}, {confirmSpecialCharacter}].filter(item=> Object.values(item)[0]);
-     console.log (passwordcriteria);
   //END: Password criteria promt
-  console.log(confirmLength);
+  //END: Get User inputs
+
+  //Generate and Return the password
   generatePassword();
-  console.log("length", confirmLength);
   password = generatedPassword;
   var passwordText = document.querySelector("#password");
   passwordText.value = password;
+  //END:Generate and Return the password
 }
 
 //Add event listener to generate button
@@ -57,7 +57,7 @@ generateBtn.addEventListener("click", writePassword);
 function generatePassword() 
 {
   criteriaCount = confirmLowerCase+confirmUpperCase+confirmNumber+confirmSpecialCharacter;
-
+  generatedPassword ="";
   for (i=0; i<confirmLength; i+=criteriaCount)
   {  if(confirmLowerCase)
     {generatedPassword = generatedPassword.concat(getRandomLowerCase());}
@@ -68,28 +68,20 @@ function generatePassword()
     if(confirmSpecialCharacter)
     {generatedPassword = generatedPassword.concat(getRandomSpecialChar());}
   }
-  console.log(generatedPassword);
-  //password generated
+  generatedPassword=generatedPassword.slice(0,confirmLength);
 return String.generatedPassword;
 }
 //End: Generate Password
 
 // RANDOM GENERATORS: lowercase, uppercase, numeric char and special character. reference for the fromCharCode => https://net-comber.com/charset.html
 function getRandomLowerCase() 
-{
-  return String.fromCharCode(Math.floor(Math.random()*26)+97);
-}
+{return String.fromCharCode(Math.floor(Math.random()*26)+97);}
 function getRandomUpperrCase() 
-{
-  return String.fromCharCode(Math.floor(Math.random()*26)+65);
-}
+{return String.fromCharCode(Math.floor(Math.random()*26)+65);}
 function getRandomNumericChar() 
-{
-  return String.fromCharCode(Math.floor(Math.random()*10)+48);
-}
+{return String.fromCharCode(Math.floor(Math.random()*10)+48);}
 function getRandomSpecialChar() 
-{
-  const specialChars = [" ", "!", "$", "%", "&", "'", "(", ")", "*", "+", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "^", "_", "`", "{", "|", "}", "~" ];
-  return specialChars[Math.floor(Math.random()*specialChars.length)];
+{const specialChars = [" ", "!", "$", "%", "&", "'", "(", ")", "*", "+", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "^", "_", "`", "{", "|", "}", "~" ];
+return specialChars[Math.floor(Math.random()*specialChars.length)];
 }
 // END: RANDOM GENERATORS:
